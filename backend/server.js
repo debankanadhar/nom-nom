@@ -17,7 +17,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+const allowedOrigins = ["https://food-website-by-arunkumar.onrender.com/", "http://localhost:3001"];
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
