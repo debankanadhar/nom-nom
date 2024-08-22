@@ -58,9 +58,11 @@ const PlaceOrder = () => {
   };
   useEffect(() => {
     if (!token) {
-      navigate("/cart");
+      navigate("/");
+      alert("Login to place order");
     } else if (getTotalCartAmount() === 0) {
-      navigate("/cart");
+      navigate("/");
+      alert("Login to place order");
     }
   }, [token]);
 
