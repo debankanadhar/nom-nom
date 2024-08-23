@@ -3,14 +3,36 @@ import axios from "axios";
 import "./Add.css";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
+import app from "../../firebase.mjs";
+import { getStorage, getDownloadURL, uploadBytes, ref } from "firebase/storage";
 const Add = ({ url }) => {
-  const [image, setImage] = useState(false);
+  let [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [data, setData] = useState({
     name: "",
     description: "",
     price: "",
     category: "salad",
   });
+  const imageHandler = async (event) => {
+    image = event.target.files[0];
+    if (image) {
+      try {
+        setUploading(true);
+        const storage = getStorage(app);
+        const storageRef = ref(storage, "images/" + image.name);
+        await uploadBytes(storageRef, image);
+        const downloadUrl = await getDownloadURL(storageRef);
+        console.log("Image url:", downloadUrl);
+        setImage(downloadUrl);
+      } catch (error) {
+        console.log(error);
+        toast.error("failed to upload image");
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -40,7 +62,7 @@ const Add = ({ url }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("Error:", error); // Log any errors
+      console.error("Error:", error);
       toast.error("An error occurred while adding the food item");
     }
   };
@@ -49,15 +71,12 @@ const Add = ({ url }) => {
     <div className="add">
       <form action="" className="flex-col" onSubmit={onSubmitHandler}>
         <div className="add-image-upload flex-col">
-          <p>Upload Image</p>
+          <p>{image ? "Uploaded Image" : "Upload Image"}</p>
           <label htmlFor="image">
-            <img
-              src={image ? URL.createObjectURL(image) : assets.upload_area}
-              alt=""
-            />
+            <img src={image ? image : assets.upload_area} alt="" />
           </label>
           <input
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={imageHandler}
             type="file"
             id="image"
             hidden
@@ -110,8 +129,8 @@ const Add = ({ url }) => {
             />
           </div>
         </div>
-        <button type="submit" className="add-btn">
-          ADD
+        <button type="submit" className="add-btn" disabled={uploading}>
+          {uploading ? "Uploading..." : "ADD"}
         </button>
       </form>
     </div>
