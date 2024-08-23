@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import multer from "multer";
 import userRouter from "./routes/userRoute.js";
 import foodRouter from "./routes/foodRoute.js";
@@ -17,7 +16,10 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-const allowedOrigins = ["https://food-website-by-arunkumar.onrender.com", "https://admin-food-website.onrender.com"];
+const allowedOrigins = [
+  "https://food-website-by-arunkumar.onrender.com",
+  "https://admin-food-website.onrender.com",
+];
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
@@ -28,8 +30,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/uploads", express.static("uploads"));
-
 // Image Storage engine
 const Storage = multer.diskStorage({
   destination: "uploads",
@@ -37,8 +37,6 @@ const Storage = multer.diskStorage({
     return cb(null, `${Date.now()}${file.originalname}`);
   },
 });
-
-const upload = multer({ storage: Storage });
 
 // Routes
 app.use("/api/user", userRouter);

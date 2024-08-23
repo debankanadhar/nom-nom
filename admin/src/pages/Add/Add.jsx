@@ -23,7 +23,6 @@ const Add = ({ url }) => {
         const storageRef = ref(storage, "images/" + image.name);
         await uploadBytes(storageRef, image);
         const downloadUrl = await getDownloadURL(storageRef);
-        console.log("Image url:", downloadUrl);
         setImage(downloadUrl);
       } catch (error) {
         console.log(error);
