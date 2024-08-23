@@ -4,7 +4,7 @@ import { StoreContext } from "../../context/StoreContext";
 import { assets } from "../../assets/assets";
 
 const FoodDisplay = ({ category }) => {
-  const { food_list, cartItems, addToCart, removeFromCart, url } =
+  const { food_list, cartItems, addToCart, removeFromCart } =
     useContext(StoreContext);
 
   return (
