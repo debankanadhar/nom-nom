@@ -3,8 +3,7 @@ import Food from "../model/foodModel.js";
 
 // Add food item
 export const addFood = async (req, res) => {
-  const { name, description, price, category } = req.body;
-  const image = req.file.filename;
+  const { name, description, price, category,image } = req.body;
 
   const newFood = new Food({
     name,
