@@ -1,26 +1,41 @@
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
-import React, { useState } from "react";
-import { useContext } from "react";
 import { StoreContext } from "../../context/StoreContext";
 import "./navbar.css";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("Home");
+  const [isShrunk, setIsShrunk] = useState(false);
 
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
-
   const navigate = useNavigate();
+
+  const handleScroll = () => {
+    if (window.scrollY) {
+      setIsShrunk(true);
+    } else {
+      setIsShrunk(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
     navigate("/");
   };
+
   return (
-    <div className="navbar">
+    <div className={`navbar ${isShrunk ? "shrink" : ""}`}>
       <Link to="/">
-        <img className="logo" src={assets.logo} alt="logo"></img>
+        <img className="logo" src={assets.logo} alt="logo" />
       </Link>
       <ul className="navbar-menu">
         <Link
@@ -53,10 +68,10 @@ const Navbar = ({ setShowLogin }) => {
         </a>
       </ul>
       <div className="navbar-right">
-        <img src={assets.search_icon} alt="search icon"></img>
+        <img src={assets.search_icon} alt="search icon" />
         <div className="navbar-basket_icon">
           <Link to="/cart">
-            <img src={assets.basket_icon} alt="basketimage"></img>
+            <img src={assets.basket_icon} alt="basketimage" />
           </Link>
           <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>

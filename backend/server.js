@@ -19,6 +19,7 @@ app.use(express.json());
 const allowedOrigins = [
   "https://food-website-by-arunkumar.onrender.com",
   "https://admin-food-website.onrender.com",
+  "http://localhost:3000",
 ];
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -28,14 +29,6 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "token, Content-Type");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
-});
-
-// Image Storage engine
-const Storage = multer.diskStorage({
-  destination: "uploads",
-  filename: (req, file, cb) => {
-    return cb(null, `${Date.now()}${file.originalname}`);
-  },
 });
 
 // Routes
