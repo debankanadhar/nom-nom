@@ -19,7 +19,7 @@ const FoodDisplay = ({ category }) => {
       <h2>Top dishes near you</h2>
 
       {/* Food List */}
-      <div className="food-display-list">
+      <div className="food-display-list" id="food-display-list">
         {food_list.map((item) => {
           if (category === "All" || category === item.category) {
             return (
@@ -83,7 +83,12 @@ const FoodDisplay = ({ category }) => {
         {currentPage > 1 && (
           <button
             className="page-number"
-            onClick={() => handlePageChange(currentPage - 1)}
+            onClick={() => {
+              handlePageChange(currentPage - 1);
+              document
+                .getElementById("food-display")
+                .scrollIntoView({ behavior: "smooth" });
+            }}
           >
             {currentPage - 1}
           </button>
@@ -102,7 +107,12 @@ const FoodDisplay = ({ category }) => {
               <button
                 key={page}
                 className="page-number"
-                onClick={() => handlePageChange(page)}
+                onClick={() => {
+                  handlePageChange(page);
+                  document
+                    .getElementById("food-display")
+                    .scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 {page}
               </button>
@@ -112,7 +122,12 @@ const FoodDisplay = ({ category }) => {
 
         <button
           className="next-page"
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={() => {
+            handlePageChange(currentPage + 1);
+            document
+              .getElementById("food-display")
+              .scrollIntoView({ behavior: "smooth" });
+          }}
           disabled={currentPage === totalPages}
         >
           {">>"}
