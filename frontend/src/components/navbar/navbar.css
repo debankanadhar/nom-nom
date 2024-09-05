@@ -17,18 +17,18 @@
 
 /* Styles for when the navbar is shrunk */
 .navbar.shrink {
-  padding: 10px 0; /* Reduce padding */
-  background-color: #fff; /* Change background color */
+  padding: 10px 0;
+  background-color: #fff;
   transition: padding 0.3s ease-in-out;
   box-shadow: 0 4px 2px -2px rgb(230, 228, 228);
 }
 
 .navbar .logo {
-  transition: width 0.3s ease; /* Smooth transition for logo size */
+  transition: width 0.3s ease;
 }
 
 .navbar.shrink .logo {
-  width: 120px; /* Shrink the logo size */
+  width: 120px;
 }
 .navbar-menu {
   display: flex;
