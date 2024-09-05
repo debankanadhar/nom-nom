@@ -74,19 +74,48 @@ const FoodDisplay = ({ category }) => {
         <button
           className="prev-page"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1} // Disable if on the first page
+          disabled={currentPage === 1}
         >
-          Prev
+          {"<<"}
         </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+
+        {/* Display previous pages if applicable */}
+        {currentPage > 1 && (
+          <button
+            className="page-number"
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            {currentPage - 1}
+          </button>
+        )}
+
+        {/* Display current page */}
+        <button className="current-page" disabled>
+          {currentPage}
+        </button>
+
+        {/* Display next 1-3 page numbers */}
+        {[...Array(3)].map((_, index) => {
+          const page = currentPage + index + 1;
+          return (
+            page <= totalPages && (
+              <button
+                key={page}
+                className="page-number"
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            )
+          );
+        })}
+
         <button
           className="next-page"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages} // Disable if on the last page
+          disabled={currentPage === totalPages}
         >
-          Next
+          {">>"}
         </button>
       </div>
     </div>

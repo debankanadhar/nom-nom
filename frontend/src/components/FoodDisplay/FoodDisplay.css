@@ -112,3 +112,64 @@
 .cart-promocode p {
   color: #555;
 }
+.pagination-controls {
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
+}
+.page-number {
+  background-color: transparent;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in, color 0.2s ease-in;
+}
+.page-number:hover {
+  background-color: rgba(255, 99, 71, 0.768);
+  color: white;
+}
+.current-page {
+  padding: 5px 8px;
+  border: 1px solid #d6d0d0;
+  background-color: tomato;
+  color: white;
+  border-radius: 4px;
+}
+
+.prev-page {
+  padding: 3px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  color: tomato;
+  transition: background-color 0.3s ease-in, color 0.2s ease-in;
+}
+.prev-page:hover {
+  color: rgb(248, 75, 45);
+  border: 1px solid #ebe5e5;
+  box-shadow: 0px 0px 10px #00000015;
+}
+.prev-page:disabled {
+  color: #666666b1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.next-page {
+  padding: 3px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  color: tomato;
+  transition: background-color 0.3s ease-in, color 0.2s ease-in;
+}
+.next-page:hover {
+  color: rgb(248, 75, 45);
+  border: 1px solid #ebe5e5;
+  box-shadow: 0px 0px 10px #00000015;
+}
+.next-page:disabled {
+  color: #666666b1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
