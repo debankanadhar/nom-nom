@@ -73,7 +73,12 @@ const FoodDisplay = ({ category }) => {
       <div className="pagination-controls">
         <button
           className="prev-page"
-          onClick={() => handlePageChange(currentPage - 1)}
+          onClick={() => {
+            handlePageChange(currentPage - 1);
+            document
+              .getElementById("food-display")
+              .scrollIntoView({ behavior: "smooth" });
+          }}
           disabled={currentPage === 1}
         >
           {"<<"}
