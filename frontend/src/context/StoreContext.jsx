@@ -50,11 +50,11 @@ const StoreContextProvider = (props) => {
   };
 
   // Calculate total cart amount
-  const getTotalCartAmount = async () => {
+  const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let itemInfo = await food_list.find((product) => product._id === item);
+        let itemInfo = allFoodItems.find((product) => product._id === item);
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItems[item];
         }
