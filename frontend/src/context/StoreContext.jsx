@@ -9,9 +9,11 @@ const StoreContextProvider = (props) => {
   const url = "https://food-delivery-website-backend-b6qm.onrender.com";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Add state for current page
   const [totalPages, setTotalPages] = useState(1); // Add state for total pages
   const [limit] = useState(12); // Limit of items per page
+  const [pagination, setPagination] = useState(true);
   const navigate = useNavigate();
 
   //list all foods
@@ -67,7 +69,7 @@ const StoreContextProvider = (props) => {
       const response = await axios.get(
         `${url}/api/food/list?page=${page}&limit=${limit}`
       );
-      setFoodList(response.data.data); // Set the food list from response
+      setFilteredFoods(response.data.data); // Set the food list from response
       setTotalPages(response.data.totalPages); // Set total pages from response
       setCurrentPage(response.data.currentPage); // Set current page from response
     } catch (error) {
@@ -99,12 +101,26 @@ const StoreContextProvider = (props) => {
       fetchFoodList(newPage);
     }
   };
+  //handle category change
+  const handleCategoryChange = async (category) => {
+    if (category === "All") {
+      await fetchFoodList();
+      fetchFoodList(currentPage);
+      setPagination(true); // Show all items if 'All' is selected
+    } else {
+      const filtered = allFoodItems.filter(
+        (food) => food.category === category
+      );
+      setFilteredFoods(filtered);
+      setPagination(false);
+    }
+  };
 
   // Initial Data Load
   useEffect(() => {
     async function loadData() {
       await fetchFoodList(currentPage);
-      listAllFoods();
+      await listAllFoods();
       if (localStorage.getItem("token")) {
         setToken(localStorage.getItem("token"));
         await loadCartData(localStorage.getItem("token"));
@@ -122,10 +138,14 @@ const StoreContextProvider = (props) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
+    filteredFoods,
     token,
     setToken,
+    pagination,
+    setPagination,
     currentPage,
     totalPages,
+    handleCategoryChange,
     handlePageChange, // Add handlePageChange to context
   };
 
