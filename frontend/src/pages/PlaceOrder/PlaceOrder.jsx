@@ -62,7 +62,7 @@ const PlaceOrder = () => {
       alert("Login to place order");
     } else if (getTotalCartAmount() === 0) {
       navigate("/");
-      alert("Login to place order");
+      alert("your cart is empty");
     }
   }, [token]);
 

@@ -7,7 +7,6 @@ const Cart = () => {
   const { cartItems, allFoodItems, removeFromCart, getTotalCartAmount } =
     useContext(StoreContext);
   const navigate = useNavigate();
-  console.log(getTotalCartAmount());
   return (
     <div className="cart">
       <div className="cart-items">
