@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState(
-    JSON.parse(localStorage.getItem("cartItems")) || {}
-  );
+  const [cartItems, setCartItems] = useState({});
+  const [allFoodItems, setAllFoodItems] = useState([]);
   const url = "https://food-delivery-website-backend-b6qm.onrender.com";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
@@ -15,16 +14,18 @@ const StoreContextProvider = (props) => {
   const [limit] = useState(12); // Limit of items per page
   const navigate = useNavigate();
 
+  //list all foods
+  const listAllFoods = async () => {
+    const response = await axios.get(url + "/api/food/allfoods");
+    setAllFoodItems(response.data.data);
+  };
   // Add to Cart Functionality
   const addToCart = async (itemId) => {
-    setCartItems((prev) => {
-      const updatedCart = {
-        ...prev,
-        [itemId]: prev[itemId] ? prev[itemId] + 1 : 1,
-      };
-      localStorage.setItem("cartItems", JSON.stringify(updatedCart)); // Save to localStorage
-      return updatedCart;
-    });
+    if (!cartItems[itemId]) {
+      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
+    } else {
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    }
     if (token) {
       await axios.post(
         url + "/api/cart/add",
@@ -36,11 +37,7 @@ const StoreContextProvider = (props) => {
 
   // Remove from Cart Functionality
   const removeFromCart = async (itemId) => {
-    setCartItems((prev) => {
-      const updatedCart = { ...prev, [itemId]: prev[itemId] - 1 };
-      localStorage.setItem("cartItems", JSON.stringify(updatedCart)); // Save to localStorage
-      return updatedCart;
-    });
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if (token) {
       await axios.post(
         url + "/api/cart/remove",
@@ -87,10 +84,6 @@ const StoreContextProvider = (props) => {
         { headers: { token } }
       );
       setCartItems(response.data.cartData || {});
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify(response.data.cartData || {})
-      ); // Store in localStorage
     } catch (error) {
       if (error.response && error.response.status === 401) {
         if (error.response.data.message === "Token expired") {
@@ -117,10 +110,11 @@ const StoreContextProvider = (props) => {
       }
     }
     loadData();
-  }, [currentPage]);
+  }, []);
 
   const ContextValue = {
     url,
+    allFoodItems,
     food_list,
     cartItems,
     setCartItems,

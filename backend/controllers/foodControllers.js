@@ -65,3 +65,16 @@ export const removeFood = async (req, res) => {
     res.status(500).json({ success: false, message: "Error removing food" });
   }
 };
+
+export const listAllFood = async () => {
+  try {
+    const allFoods = await Food.find({});
+    return res.status(200).json({
+      success: true,
+      data: allFoods,
+    });
+  } catch (error) {
+    console.error("Error removing food:", error);
+    res.status(500).json({ success: false, message: "Error removing food" });
+  }
+};
