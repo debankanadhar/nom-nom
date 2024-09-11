@@ -66,7 +66,7 @@ export const removeFood = async (req, res) => {
   }
 };
 
-export const listAllFood = async () => {
+export const listAllFood = async (req, res) => {
   try {
     const allFoods = await Food.find({});
     return res.status(200).json({
