@@ -70,74 +70,76 @@ const FoodDisplay = ({ category }) => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="pagination-controls">
-        <button
-          className="prev-page"
-          onClick={() => {
-            handlePageChange(currentPage - 1);
-            document
-              .getElementById("food-display")
-              .scrollIntoView({ behavior: "smooth" });
-          }}
-          disabled={currentPage === 1}
-        >
-          {"<<"}
-        </button>
-
-        {/* Display previous pages if applicable */}
-        {currentPage > 1 && (
+      {food_list.length > 0 && (
+        <div className="pagination-controls">
           <button
-            className="page-number"
+            className="prev-page"
             onClick={() => {
               handlePageChange(currentPage - 1);
               document
                 .getElementById("food-display")
                 .scrollIntoView({ behavior: "smooth" });
             }}
+            disabled={currentPage === 1}
           >
-            {currentPage - 1}
+            {"<<"}
           </button>
-        )}
 
-        {/* Display current page */}
-        <button className="current-page" disabled>
-          {currentPage}
-        </button>
+          {/* Display previous pages if applicable */}
+          {currentPage > 1 && (
+            <button
+              className="page-number"
+              onClick={() => {
+                handlePageChange(currentPage - 1);
+                document
+                  .getElementById("food-display")
+                  .scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              {currentPage - 1}
+            </button>
+          )}
 
-        {/* Display next 1-3 page numbers */}
-        {[...Array(3)].map((_, index) => {
-          const page = currentPage + index + 1;
-          return (
-            page <= totalPages && (
-              <button
-                key={page}
-                className="page-number"
-                onClick={() => {
-                  handlePageChange(page);
-                  document
-                    .getElementById("food-display")
-                    .scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                {page}
-              </button>
-            )
-          );
-        })}
+          {/* Display current page */}
+          <button className="current-page" disabled>
+            {currentPage}
+          </button>
 
-        <button
-          className="next-page"
-          onClick={() => {
-            handlePageChange(currentPage + 1);
-            document
-              .getElementById("food-display")
-              .scrollIntoView({ behavior: "smooth" });
-          }}
-          disabled={currentPage === totalPages}
-        >
-          {">>"}
-        </button>
-      </div>
+          {/* Display next 1-3 page numbers */}
+          {[...Array(3)].map((_, index) => {
+            const page = currentPage + index + 1;
+            return (
+              page <= totalPages && (
+                <button
+                  key={page}
+                  className="page-number"
+                  onClick={() => {
+                    handlePageChange(page);
+                    document
+                      .getElementById("food-display")
+                      .scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  {page}
+                </button>
+              )
+            );
+          })}
+
+          <button
+            className="next-page"
+            onClick={() => {
+              handlePageChange(currentPage + 1);
+              document
+                .getElementById("food-display")
+                .scrollIntoView({ behavior: "smooth" });
+            }}
+            disabled={currentPage === totalPages}
+          >
+            {">>"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
