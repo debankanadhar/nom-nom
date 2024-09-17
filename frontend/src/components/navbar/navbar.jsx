@@ -35,12 +35,20 @@ const Navbar = ({ setShowLogin }) => {
   return (
     <div className={`navbar ${isShrunk ? "shrink" : ""}`}>
       <Link to="/">
-        <img className="logo" src={assets.logo} alt="logo" />
+        <img
+          className="logo"
+          src={assets.logo}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          alt="logo"
+        />
       </Link>
       <ul className="navbar-menu">
         <Link
           to="/"
-          onClick={() => setMenu("Home")}
+          onClick={() => {
+            setMenu("Home");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
           className={menu === "Home" ? "active" : ""}
         >
           Home
