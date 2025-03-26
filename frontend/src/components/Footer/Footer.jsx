@@ -31,15 +31,12 @@ const Footer = () => {
         <div className="footer-content-right">
           <h2>GET IN TOUCH</h2>
           <ul>
-            <li>+91 9894019281</li>
-            <li>arunmuthaiah007@gmail.com</li>
+            <li>+91 9894333333</li>
+            <li>muthaiah007@gmail.com</li>
           </ul>
         </div>
       </div>
       <hr></hr>
-      <p className="footer-copyright">
-        Copyright 2024 © Arunkumar -All Rights Reserved
-      </p>
     </div>
   );
 };
