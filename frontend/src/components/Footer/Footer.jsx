@@ -13,11 +13,7 @@ const Footer = () => {
             Experience delicious meals delivered to your doorstep. Your favorite
             dishes are just a click away!
           </p>
-          <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="Facebook" />
-            <img src={assets.twitter_icon} alt="Twitter" />
-            <img src={assets.linkedin_icon} alt="LinkedIn" />
-          </div>
+       
         </div>
 
         {/* Center Section - Company */}
@@ -55,7 +51,11 @@ const Footer = () => {
 
       <hr />
 
-   
+      <div className="footer-social-icons">
+            <img src={assets.facebook_icon} alt="Facebook" />
+            <img src={assets.twitter_icon} alt="Twitter" />
+            <img src={assets.linkedin_icon} alt="LinkedIn" />
+          </div>
     </div>
   );
 };
