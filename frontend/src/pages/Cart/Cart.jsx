@@ -7,75 +7,78 @@ const Cart = () => {
   const { cartItems, allFoodItems, removeFromCart, getTotalCartAmount } =
     useContext(StoreContext);
   const navigate = useNavigate();
+  
   return (
-    <div className="cart">
-      <div className="cart-items">
-        <div className="cart-items-title">
-          <p>Items</p>
-          <p>Title</p>
-          <p>Price</p>
-          <p>Quantity</p>
-          <p>Total</p>
-          <p>Remove</p>
-        </div>
-        <br />
-        <hr />
-        {allFoodItems.map((item, index) => {
+    <div className="cart-container">
+      <div className="cart-header">
+        <h1>Your Cart</h1>
+        <p className="cart-item-count">{Object.keys(cartItems).filter(id => cartItems[id] > 0).length} items</p>
+      </div>
+      
+      <div className="cart-items-container">
+        {allFoodItems.map((item) => {
           if (cartItems[item._id] > 0) {
             return (
-              <div key={item._id}>
-                <div className="cart-items-title cart-items-item ">
-                  <img src={item.image} alt="" />
-                  <p>{item.name}</p>
-                  <p>₹{item.price}</p>
-                  <p>{cartItems[item._id]}</p>
-                  <p>{item.price * cartItems[item._id]}</p>
-                  <p className="cross" onClick={() => removeFromCart(item._id)}>
-                    x
-                  </p>
+              <div key={item._id} className="cart-item-card">
+                <img src={item.image} alt={item.name} className="cart-item-image" />
+                <div className="cart-item-details">
+                  <h3>{item.name}</h3>
+                  <p className="cart-item-price">₹{item.price}</p>
+                  <div className="cart-item-quantity">
+                    <span>Qty: {cartItems[item._id]}</span>
+                  </div>
                 </div>
-                <hr />
+                <div className="cart-item-total">
+                  <p>₹{item.price * cartItems[item._id]}</p>
+                  <button 
+                    onClick={() => removeFromCart(item._id)}
+                    className="cart-item-remove"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 6L6 18" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round"/>
+                      <path d="M6 6L18 18" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             );
-          } else {
-            return null;
           }
+          return null;
         })}
-        <div className="cart-bottom">
-          <div className="cart-total">
-            <h2>Cart Totals</h2>
-            <div>
-              <div className="cart-total-details">
-                <p>Sub Total</p>
-                <p>₹{getTotalCartAmount()}</p>
-              </div>
-              <hr />
-              <div className="cart-total-details">
-                <p>Delivery Fee</p>
-                <p>₹{getTotalCartAmount() === 0 ? 0 : 80}</p>
-              </div>
-              <hr />
-              <div className="cart-total-details">
-                <b>Total</b>
-                <b>
-                  ₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 10}
-                </b>
-              </div>
-            </div>
-            <button onClick={() => navigate("/order")}>
-              PROCEED TO CHECKOUT
-            </button>
+      </div>
+      
+      <div className="cart-summary">
+        <div className="promo-section">
+          <input 
+            type="text" 
+            placeholder="Enter promo code" 
+            className="promo-input"
+          />
+          <button className="promo-button">Apply</button>
+        </div>
+        
+        <div className="totals-section">
+          <div className="total-row">
+            <span>Subtotal</span>
+            <span>₹{getTotalCartAmount()}</span>
           </div>
-          <div className="cart-promocode">
-            <div>
-              <p>If you have a promo code,Enter it here</p>
-              <div className="cart-promocode-input">
-                <input type="text" placeholder="promo code" />
-                <button>Submit</button>
-              </div>
-            </div>
+          <div className="total-row">
+            <span>Delivery</span>
+            <span>₹{getTotalCartAmount() === 0 ? 0 : 80}</span>
+          </div>
+          <div className="total-row grand-total">
+            <span>Total</span>
+            <span>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 80}</span>
           </div>
         </div>
+        
+        <button 
+          onClick={() => navigate("/order")}
+          className="checkout-button"
+          disabled={getTotalCartAmount() === 0}
+        >
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   );
