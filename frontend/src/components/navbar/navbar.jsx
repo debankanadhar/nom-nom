@@ -65,7 +65,7 @@ const Navbar = ({ setShowLogin }) => {
           onClick={() => setMenu("Mobile-app")}
           className={menu === "Mobile-app" ? "active" : ""}
         >
-          Mobile-app
+          Ai-assistant
         </a>
         <a
           href="#footer"

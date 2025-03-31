@@ -1,14 +1,46 @@
 .Header {
   height: 34vw;
   margin: 30px auto;
-  background: url("/public/header_img.png") no-repeat;
+  background: url("/public/pexels-rdne-5847971.jpg") no-repeat center;
   background-size: cover;
   position: relative;
   justify-content: center;
   display: flex;
   width: 100%;
   border-radius: 15px;
+  overflow: hidden;
 }
+
+/* Gradient Overlay for Better Readability */
+.Header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+}
+
+/* Smooth Zoom Effect */
+.Header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  background-size: 110%;
+  background-position: center;
+  transition: transform 0.5s ease-in-out;
+}
+
+.Header:hover::before {
+  transform: scale(1.1);
+}
+
+/* Content Styling */
 .Header-contents {
   position: absolute;
   display: flex;
@@ -18,39 +50,65 @@
   max-width: 50%;
   bottom: 10%;
   left: 6vw;
+  color: white;
+  z-index: 2;
   animation: fadeIn 3s;
 }
+
 .Header-contents h2 {
-  font-weight: 500;
+  font-weight: bold;
   color: white;
-  font-size: max(4.5vw, 22px);
+  font-size: max(4.5vw, 24px);
+
 }
+
 .Header-contents p {
-  color: white;
-  font-size: 1vw;
+  color: #f1f1f1;
+  font-size: 1.2vw;
+  line-height: 1.5;
 }
+
+/* Button Styling */
 .Header-contents button {
   border: none;
-  color: #747474;
-  font-weight: 500;
-  font-size: max(1vw, 13px);
-  background-color: white;
-  padding: 1vw 2.3vw;
+  color: white;
+  font-weight: bold;
+  font-size: max(1vw, 14px);
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  padding: 1vw 2.5vw;
   border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 126, 95, 0.3);
 }
+
+.Header-contents button:hover {
+  background: linear-gradient(135deg, #feb47b, #ff7e5f);
+  box-shadow: 0 6px 15px rgba(255, 126, 95, 0.5);
+  transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 1050px) {
-  .header-contents {
-    max-width: 45%;
+  .Header-contents {
+    max-width: 55%;
   }
 }
+
 @media (max-width: 750px) {
-  .header-contents {
-    max-width: 65%;
+  .Header-contents {
+    max-width: 70%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
   }
-  .header-contents p {
+
+  .Header-contents p {
     display: none;
   }
-  .header-contents button {
-    padding: 2vw 4vw;
+
+  .Header-contents button {
+    padding: 2vw 5vw;
   }
 }
