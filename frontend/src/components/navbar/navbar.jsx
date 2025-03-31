@@ -2,17 +2,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
+import { ShoppingCart, Search, User, LogOut, Package, Home, Phone, Bot } from "lucide-react";
 import "./navbar.css";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("Home");
   const [isShrunk, setIsShrunk] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const handleScroll = () => {
-    if (window.scrollY) {
+    if (window.scrollY > 10) {
       setIsShrunk(true);
     } else {
       setIsShrunk(false);
@@ -30,6 +32,7 @@ const Navbar = ({ setShowLogin }) => {
     localStorage.removeItem("token");
     setToken("");
     navigate("/");
+    setIsProfileOpen(false);
   };
 
   return (
@@ -51,54 +54,83 @@ const Navbar = ({ setShowLogin }) => {
           }}
           className={menu === "Home" ? "active" : ""}
         >
-          Home
+          <Home size={18} className="menu-icon" />
+          <span>Home</span>
         </Link>
         <a
           href="#explore-menu"
           onClick={() => setMenu("Menu")}
           className={menu === "Menu" ? "active" : ""}
         >
-          Menu
+          <Package size={18} className="menu-icon" />
+          <span>Menu</span>
         </a>
-        <a
-          href="#app-download"
-          onClick={() => setMenu("Mobile-app")}
-          className={menu === "Mobile-app" ? "active" : ""}
-        >
-          Mobile-app
-        </a>
+        <Link
+  to="/ai"
+  onClick={() => setMenu("Mobile-app")}
+  className={menu === "Mobile-app" ? "active" : ""}
+>
+  <Bot size={18} className="menu-icon" />
+  <span>AI Assistant</span>
+</Link>
         <a
           href="#footer"
           onClick={() => setMenu("Contact us")}
           className={menu === "Contact us" ? "active" : ""}
         >
-          Contact us
+          <Phone size={18} className="menu-icon" />
+          <span>Contact</span>
         </a>
       </ul>
       <div className="navbar-right">
-        <img src={assets.search_icon} alt="search icon" />
+      <button className="search-btn" aria-label="Search">
+      <Bot size={20} className="menu-icon1" />
+      </button>
+      
+       
+        
         <div className="navbar-basket_icon">
-          <Link to="/cart">
-            <img src={assets.basket_icon} alt="basketimage" />
+          <Link to="/cart" aria-label="Cart">
+            <ShoppingCart size={24} />
+            {getTotalCartAmount() > 0 && (
+              <span className="dot"></span>
+            )}
           </Link>
-          <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>
+        
         {!token ? (
-          <button onClick={() => setShowLogin(true)}>Sign in</button>
+          <button 
+            onClick={() => setShowLogin(true)} 
+            className="signin-btn"
+          >
+            Sign in
+          </button>
         ) : (
           <div className="navbar-profile">
-            <img src={assets.profile_icon} alt="" />
-            <ul className="navbar-profile-dropdown">
-              <li onClick={() => navigate("/myorders")}>
-                <img src={assets.bag_icon} alt="" />
-                <p>Orders</p>
-              </li>
-              <hr />
-              <li onClick={logout}>
-                <img src={assets.logout_icon} alt="" />
-                <p>Logout</p>
-              </li>
-            </ul>
+            <button 
+              onClick={() => setIsProfileOpen(!isProfileOpen)} 
+              className="profile-btn"
+              aria-label="Profile"
+            >
+              <User size={24} />
+            </button>
+            
+            {isProfileOpen && (
+              <ul className="navbar-profile-dropdown">
+                <li onClick={() => {
+                  navigate("/myorders");
+                  setIsProfileOpen(false);
+                }}>
+                  <Package size={18} />
+                  <span>Orders</span>
+                </li>
+                <hr />
+                <li onClick={logout}>
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </li>
+              </ul>
+            )}
           </div>
         )}
       </div>
